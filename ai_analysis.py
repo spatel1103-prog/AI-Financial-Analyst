@@ -66,6 +66,7 @@ def risks (ticker, data):
         """
     )
 
+
     return response.output_text
 
 def growth_opportunities ( ticker, data ):
