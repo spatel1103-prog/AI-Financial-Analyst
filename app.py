@@ -17,11 +17,8 @@ if st.button("Analyze"):
         info = get_company_info(ticker)
         data = get_stock_data(ticker)
 
-    except Exception:
-        st.error(
-            "Yahoo Finance is temporarily rate limiting requests. "
-            "Please try again in a few minutes."
-        )
+    except Exception as e:
+        st.exception(e)
         st.stop()
 
 
