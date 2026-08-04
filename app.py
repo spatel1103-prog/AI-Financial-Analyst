@@ -1,11 +1,11 @@
 import streamlit as st
 
-from company_data import  get_stock, get_company_info, get_stock_data
+from company_data import get_company_info, get_stock_data
 from display import display_company_info, display_chart
-from ai_analysis import generate_business_summary, generate_investment_recommendation, valuation_analysis, risks
+from ai_analysis import generate_business_summary, generate_investment_recommendation, valuation_analysis, risks, growth_opportunities, ask_ai
 
 st.title("AI Financial Analyst")
-st.caption("AI Financial Analyst description")
+st.caption("Analyze any publicly traded company using financial data and AI generated insights.")
 
 ticker = (st.text_input("Enter a stock ticker: ")).upper()
 
@@ -13,9 +13,17 @@ if st.button("Analyze"):
 
     st.header(f"{ticker} Analysis")
 
-    stock = get_stock(ticker)
+    try:
+        info = get_company_info(ticker)
+        data = get_stock_data(ticker)
 
-    info = get_company_info(stock)
+    except Exception:
+        st.error(
+            "Yahoo Finance is temporarily rate limiting requests. "
+            "Please try again in a few minutes."
+        )
+        st.stop()
+
 
     # validate the ticker the user inputted
     if info is None:
@@ -23,7 +31,7 @@ if st.button("Analyze"):
         st.stop()
 
     # fetch data from 5 years
-    data = get_stock_data(stock)
+    data = get_stock_data(ticker)
 
     # create tabs for organization
     tab1, tab2, tab3 = st.tabs([
@@ -53,8 +61,21 @@ if st.button("Analyze"):
             st.write(valuation)
 
         with st.expander ("Business Risks") :
-            risks = risks (ticker, data)
-            st.write(risks)
+            risks_analysis = risks (ticker, data)
+            st.write(risks_analysis)
 
         with st.expander ("Growth Opportunities"):
-            st.write()
+            growth = growth_opportunities(ticker)
+            st.write(growth)
+
+
+        st.subheader("Ask the AI")
+
+        question = st.text_area(
+         "Ask a question about this company:",
+            placeholder = "Example: Is this company overvalued?"
+        )
+
+        if st.button("Ask AI"):
+            answer = ask_ai(question, info, data)
+            st.write(answer)

@@ -1,21 +1,19 @@
 import yfinance as yf
+import streamlit as st
 
-def get_stock (ticker):
-    return yf.Ticker(ticker)
 
-def get_company_info (stock):
-
-    info = stock.info
-
-    if not info:
-        return None
+@st.cache_data(ttl=3600)
+def get_company_info(ticker):
+    stock = yf.Ticker(ticker)
+    info = stock.fast_info
 
     return info
 
-def get_stock_data (stock):
+@st.cache_data(ttl=3600)
+def get_stock_data(ticker):
+    stock = yf.Ticker(ticker)
 
     data = stock.history(period="5y")
-
     data["MA_5"] = data["Close"].rolling(window=5).mean()
     data["MA_20"] = data["Close"].rolling(window=20).mean()
 

@@ -69,7 +69,43 @@ def risks (ticker, data):
 
     return response.output_text
 
-def growth_opportunities ( ticker, data ):
-    response = client.responses.create()
+def growth_opportunities ( ticker ):
+    response = client.responses.create(
 
-    return response
+        model = "gpt-5",
+        input = f"""
+
+        You are a professional financial analyst.
+        Identify growth opportunities for {ticker} stock in a bulleted list.
+        Make these growth opportunities based on technical indicators and fundamental analysis 
+        """
+
+
+    )
+
+    return response.output_text
+
+
+def ask_ai ( question, info, data ):
+    response = client.responses.create(
+
+        model="gpt-5",
+        input=f"""
+
+            You are a professional financial analyst.
+            
+            Company: {info["longName"]}
+            Sector: {info["sector"]}
+            Current Price: {info["currentPrice"]}
+            MarketCap: {info["marketCap"]}
+            Other Stock data: {data}
+            Question: {question}
+                    
+            Answer in a clear way for an investor.
+            If the question is unrelated to the company, or ivnveting, politely explaing that you only answer financial questions.
+
+            """
+
+    )
+
+    return response.output_text

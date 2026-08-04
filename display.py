@@ -23,30 +23,36 @@ def display_chart (data, ticker):
 
 def display_company_info (info):
     # display info about company
-    st.header("\nCompany Information")
-
     st.subheader(f"Company: {info['longName']}")
     st.write(f"Sector: {info['sector']}")
 
     col1, col2 = st.columns(2)
 
     with col1:
-        st.write(f"Current Price: ${info['currentPrice']:.2f}")
+        st.write(f"Current Price:")
+        st.write(f"${info['currentPrice']:.2f}")
 
         # not all companies have trailing pe and dividend yield so check first then print
         pe = info.get("trailingPE")
 
         if pe is not None:
-            st.write(f"Trailing PE: {pe:.2f}")
+            st.write(f"Trailing PE:")
+            st.write(f"{pe:.2f}")
         else:
-            st.write("Trailing PE: N/A")
+            st.write("Trailing PE:")
+            st.write("N/A")
 
     with col2:
-        st.write(f"Market Cap: ${(info['marketCap'] / 1_000_000_000):.2f} Billion")
+        st.write(f"Market Cap:")
+        st.write(f"${(info['marketCap'] / 1_000_000_000):.2f} Billion")
 
         dividend = info.get("dividendYield")
 
         if dividend is not None:
-            st.write(f"Dividend Yield: {dividend:.2f}%")
+            st.write(f"Dividend Yield:")
+            st.write(f" {dividend:.2f}%")
         else:
-            st.write("Dividend Yield: N/A")
+            st.write("Dividend Yield:")
+            st.write("N/A")
+
+
