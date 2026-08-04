@@ -31,14 +31,15 @@ if st.button("Analyze"):
     data = get_stock_data(ticker)
 
     # create tabs for organization
-    tab1, tab2, tab3 = st.tabs([
+    tab1, tab2, tab3, tab4 = st.tabs([
         "Company Information",
         "Stock Chart",
-        "AI Analysis"
+        "AI Analysis",
+        "Ask AI Anything"
     ])
 
     with tab1:
-        display_company_info(info)
+        display_company_info(ticker, info)
 
     with tab2:
         display_chart(data, ticker)
@@ -46,7 +47,7 @@ if st.button("Analyze"):
     with tab3:
 
         with st.expander ("Business Summary"):
-            summary = generate_business_summary(info["longName"])
+            summary = generate_business_summary(ticker)
             st.write(summary)
 
         with st.expander ("Investment Recommendation"):
@@ -66,11 +67,13 @@ if st.button("Analyze"):
             st.write(growth)
 
 
+    with tab4:
+
         st.subheader("Ask the AI")
 
         question = st.text_area(
-         "Ask a question about this company:",
-            placeholder = "Example: Is this company overvalued?"
+            "Ask a question about this company:",
+            placeholder="Example: Is this company overvalued?"
         )
 
         if st.button("Ask AI"):

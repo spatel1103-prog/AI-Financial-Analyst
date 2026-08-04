@@ -3,14 +3,14 @@ import streamlit as st
 
 client = OpenAI (api_key = st.secrets["OPENAI_API_KEY"])
 
-def generate_business_summary ( company_name ):
+def generate_business_summary ( ticker ):
     response = client.responses.create(
 
         model = "gpt-5",
         input = f"""""
         You are a professional financial analyst.
         
-        Write a concise business summary for {company_name}.
+        Write a concise business summary for the publicly traded company with ticker {ticker}
         
         Include:
         - What the company does

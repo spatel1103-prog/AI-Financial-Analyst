@@ -21,16 +21,16 @@ def display_chart (data, ticker):
 
     st.pyplot(fig)
 
-def display_company_info (info):
+def display_company_info (ticker, info):
     # display info about company
-    st.subheader(f"Company: {info['longName']}")
-    st.write(f"Sector: {info['sector']}")
+    st.subheader(ticker)
+    #st.write(f"Sector: {info['sector']}")
 
     col1, col2 = st.columns(2)
 
     with col1:
         st.write(f"Current Price:")
-        st.write(f"${info['currentPrice']:.2f}")
+        st.write(f"${info['lastPrice']:.2f}")
 
         # not all companies have trailing pe and dividend yield so check first then print
         pe = info.get("trailingPE")
@@ -41,6 +41,9 @@ def display_company_info (info):
         else:
             st.write("Trailing PE:")
             st.write("N/A")
+
+        st.write("52 Week High:")
+        st.write(f"${info['yearHigh']:.2f}")
 
     with col2:
         st.write(f"Market Cap:")
@@ -54,5 +57,8 @@ def display_company_info (info):
         else:
             st.write("Dividend Yield:")
             st.write("N/A")
+
+        st.write(f"52 Week Low")
+        st.write(f"${info['yearLow']:.2f}")
 
 
