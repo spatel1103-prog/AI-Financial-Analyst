@@ -5,9 +5,8 @@ import streamlit as st
 @st.cache_data(ttl=3600)
 def get_company_info(ticker):
     stock = yf.Ticker(ticker)
-    info = stock.fast_info
 
-    return info
+    return dict(stock.fast_info)
 
 @st.cache_data(ttl=3600)
 def get_stock_data(ticker):
